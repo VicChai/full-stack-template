@@ -3,3 +3,20 @@ const app = express()
 const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient
 require('dotenv').config()
+
+let db,
+    dbConnectionStr = process.env.DB_STRING,
+    db_Name = "sample_mflix",
+    collection,
+    
+
+MongoClient.connect(dbConnectionString)    
+    .then(client => {
+        console.log('Connected to Database')
+        db = client.db(db_Name)
+        collection = db.collection('movies')
+    })
+
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server is running on port = ${{PORT}}`)
+})
