@@ -1,13 +1,14 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const { isErrored } = require('stream')
 const MongoClient = require('mongodb').MongoClient
 require('dotenv').config()
 
 let db,
-    dbConnectionStr = process.env.DB_STRING,
+    dbConnectionString = process.env.DB_STRING,
     db_Name = "sample_mflix",
-    collection,
+    collection
     
 
 MongoClient.connect(dbConnectionString)    
@@ -17,6 +18,12 @@ MongoClient.connect(dbConnectionString)
         collection = db.collection('movies')
     })
 
+app.set('view engine', 'ejs')
+app.use(express.static('public')) 
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
+app.use(cors())   
+
 app.listen(process.env.PORT || PORT, () => {
-    console.log(`Server is running on port = ${{PORT}}`)
+    console.log(`Server is running on port`)
 })
